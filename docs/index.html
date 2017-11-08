@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>Image Effect</title>
+<script src="./app.js"></script>
+<style>
+*{box-sizing:border-box;}
+html{height:100%;margin:0;padding:0;}
+body{position:relative;height:100%;margin:0;padding:0;}
+header{padding:0.5rem;text-align:right;position:absolute;top:0;left:0;width:100%;}
+article{padding:3rem 0 0;width:100%;height:100%;}
+article:after{content:'';clear:both;}
+section{width:50%;height:100%;float:left;border:0.5rem solid transparent;}
+.button{cursor:pointer;text-decoration:none;background-color:lightgray;color:black;border-radius:0.3rem;padding:0.1rem 1rem;}
+.button:hover{background-color:gray;}
+#main{border-color:#bbbbff;}
+#download:after{content:'Download';}
+canvas{max-width:100%;}
+</style>
+</head>
+<body>
+	<header>
+		<select id="filter"></select>
+		<a id="download" class="button"></a></div>
+	</header>
+	<article>
+		<section id="main">
+			<canvas id="image"></canvas>
+		</section>
+		<section id="sub">
+			<canvas id="preview"></canvas>
+		</section>
+	</article>
+</body>
+</html>
