@@ -8,6 +8,7 @@ class App {
         this.addFilter('Red', Red);
         this.addFilter('Green', Green);
         this.addFilter('Blue', Blue);
+        this.addFilter('FillColor', FillColor);
         this.option.filter.addEventListener('change', (event) => { this.execFilter(); }, false);
         this.initDropFile(this.option.mainarea, (event) => { this.dropEvent(event); });
     }
@@ -15,7 +16,9 @@ class App {
         droparea.addEventListener('dragover', (event) => {
             event.stopPropagation();
             event.preventDefault();
-            event.dataTransfer.dropEffect = 'copy';
+            if (event.dataTransfer) {
+                event.dataTransfer.dropEffect = 'copy';
+            }
         }, false);
         droparea.addEventListener('drop', drop, false);
     }
@@ -62,6 +65,7 @@ class App {
         if (!this.filters[key]) {
             return;
         }
+        document.querySelectorAll('.option').forEach((input) => { input.classList.remove('on'); });
         this.copyCanvas(this.option.image, this.option.preview);
         this.filters[key](this.option.preview);
         this.option.download.href = this.option.preview.toDataURL();
@@ -154,6 +158,20 @@ function Blue(canvas) {
         image.data[i * 4 + 1] = 0;
     }
     context.putImageData(image, 0, 0);
+}
+function FillColor(canvas) {
+    const input = document.getElementById('value1');
+    input.classList.add('on');
+    const w = canvas.width;
+    const h = canvas.height;
+    const context = canvas.getContext('2d');
+    const image = context.getImageData(0, 0, w, h);
+    context.fillStyle = input.value || 'blue';
+    context.clearRect(0, 0, w, h);
+    for (let i = 0; i < w * h; ++i) {
+        context.globalAlpha = image.data[i * 4 + 3] / 255.0;
+        context.fillRect(i % w, i / w, 1, 1);
+    }
 }
 document.addEventListener('DOMContentLoaded', () => {
     const app = new App({

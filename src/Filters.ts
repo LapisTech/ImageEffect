@@ -111,3 +111,25 @@ function Blue( canvas: HTMLCanvasElement )
 
 	context.putImageData( image, 0, 0 );
 }
+
+function FillColor( canvas: HTMLCanvasElement )
+{
+	const input = <HTMLInputElement>document.getElementById( 'value1' );
+	input.classList.add( 'on' );
+
+	const w = canvas.width;
+	const h = canvas.height;
+	const context = <CanvasRenderingContext2D>canvas.getContext( '2d' );
+
+	const image = context.getImageData( 0, 0, w, h );
+
+	context.fillStyle = input.value || 'blue';
+	context.clearRect( 0, 0, w, h );
+	for ( let i = 0 ; i < w * h ; ++i )
+	{
+		context.globalAlpha = image.data[ i * 4 + 3 ] / 255.0;
+		context.fillRect( i % w, i / w, 1, 1 );
+	}
+
+	//context.putImageData( image, 0, 0 );
+}

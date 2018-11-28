@@ -14,6 +14,7 @@ article:after{content:'';clear:both;}
 section{width:50%;height:100%;float:left;border:0.5rem solid transparent;}
 .button{cursor:pointer;text-decoration:none;background-color:lightgray;color:black;border-radius:0.3rem;padding:0.1rem 1rem;}
 .button:hover{background-color:gray;}
+.option:not(.on) { display: none; }
 #main{border-color:#bbbbff;}
 #download:after{content:'Download';}
 canvas{max-width:100%;}
@@ -21,6 +22,7 @@ canvas{max-width:100%;}
 </head>
 <body>
 	<header>
+		<input type="text" id="value1" class="option">
 		<select id="filter"></select>
 		<a id="download" class="button"></a></div>
 	</header>

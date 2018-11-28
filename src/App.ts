@@ -20,6 +20,7 @@ class App
 		this.addFilter( 'Red', Red );
 		this.addFilter( 'Green', Green );
 		this.addFilter( 'Blue', Blue );
+		this.addFilter( 'FillColor', FillColor );
 		this.option.filter.addEventListener( 'change', ( event ) => { this.execFilter(); }, false );
 
 		// Drag & Drop
@@ -32,7 +33,7 @@ class App
 		{
 			event.stopPropagation();
 			event.preventDefault();
-			event.dataTransfer.dropEffect = 'copy';
+			if ( event.dataTransfer ) { event.dataTransfer.dropEffect = 'copy'; }
 		}, false );
 		droparea.addEventListener( 'drop', drop, false );
 	}
@@ -42,7 +43,7 @@ class App
 		event.stopPropagation();
 		event.preventDefault();
 
-		const files = event.dataTransfer.files;
+		const files = (<DataTransfer>event.dataTransfer).files;
 		if ( files.length < 1 ) { return; }
 
 		const file = files[ 0 ];
@@ -61,7 +62,7 @@ class App
 		};
 
 		const reader = new FileReader();
-		reader.onload = ( event ) => { image.src = reader.result; };
+		reader.onload = ( event ) => { image.src = <string>reader.result; };
 		reader.readAsDataURL( file );
 	}
 
@@ -93,6 +94,7 @@ class App
 		const option = this.option.filter.selectedOptions[ 0 ];
 		const key = option.value;
 		if ( !this.filters[ key ] ) { return; }
+		document.querySelectorAll( '.option' ).forEach( ( input: HTMLInputElement ) => { input.classList.remove( 'on' ); } );
 		this.copyCanvas( this.option.image, this.option.preview );
 		this.filters[ key ]( this.option.preview );
 
